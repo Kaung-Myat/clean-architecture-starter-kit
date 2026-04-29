@@ -37,6 +37,15 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          cache: true
+
+      - name: Cache Pub Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
 
       - name: Install dependencies
         run: flutter pub get
@@ -59,6 +68,22 @@ jobs:
       - name: Build APK
         run: |
           flutter build apk --release --split-per-abi --dart-define-from-file=.env
+
+      - name: Send APK to Telegram Group
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            🚀 **New UAT Build Ready!**
+            ---------------------------
+            📌 **Environment:** ${{ github.event.inputs.environment || 'uat' }}
+            🔢 **Build Number:** #${{ github.run_number }}
+            🌿 **Branch:** ${{ github.ref_name }}
+            👤 **Triggered by:** ${{ github.actor }}
+
+            ✅ Testing are skipped (per setup).
+          document: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
 
       - name: Upload APK Artifacts
         uses: actions/upload-artifact@v4
