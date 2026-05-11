@@ -41,6 +41,7 @@ class AuthPage extends ConsumerWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text("Hello"),
                   Text('Welcome, ${user.name}!', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   Text('Email: ${user.email}'),
                   const SizedBox(height: 30),
