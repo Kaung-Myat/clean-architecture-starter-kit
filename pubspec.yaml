@@ -1,5 +1,5 @@
 name: clean_frame_starter
-description: "A new Flutter project."
+description: "A production-ready Flutter template built with **Clean Architecture** and **Riverpod** dependency injection. "
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
