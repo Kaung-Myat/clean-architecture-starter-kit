@@ -1,4 +1,4 @@
-package com.example.riverpod_di_test
+package com.example.clean_frame_starter
 
 import io.flutter.embedding.android.FlutterActivity
 

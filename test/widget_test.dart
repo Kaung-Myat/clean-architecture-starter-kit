@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_di_test/app/app.dart';
-import 'package:riverpod_di_test/core/storage/shared_pref_service.dart';
+import 'package:clean_frame_starter/app/app.dart';
+import 'package:clean_frame_starter/core/storage/shared_pref_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -11,12 +11,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
 
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-        child: const MyApp(),
-      ),
-    );
+    await tester.pumpWidget(ProviderScope(overrides: [sharedPreferencesProvider.overrideWithValue(prefs)], child: const MyApp()));
     await tester.pumpAndSettle();
 
     expect(find.text('Sign in with Google'), findsOneWidget);

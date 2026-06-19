@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:riverpod_di_test/features/auth/domain/entities/user_entity.dart';
-import 'package:riverpod_di_test/features/auth/domain/repositories/auth_repository.dart';
-import 'package:riverpod_di_test/features/auth/domain/usecases/login_with_google_usecase.dart';
+import 'package:clean_frame_starter/features/auth/domain/entities/user_entity.dart';
+import 'package:clean_frame_starter/features/auth/domain/repositories/auth_repository.dart';
+import 'package:clean_frame_starter/features/auth/domain/usecases/login_with_google_usecase.dart';
 
 // Building Mock Class
 
