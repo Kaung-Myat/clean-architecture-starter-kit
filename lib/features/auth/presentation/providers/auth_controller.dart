@@ -37,7 +37,7 @@
 // });
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../core/di/auth_providers.dart';
+import '../../../../core/di/auth_di.dart';
 import '../../domain/entities/user_entity.dart';
 
 // ၁။ Generator က ထုတ်ပေးမည့် ဖိုင်ကို လှမ်းချိတ်ခြင်း

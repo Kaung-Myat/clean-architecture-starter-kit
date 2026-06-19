@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/auth_controller.dart';
+import '../providers/auth_controller.dart';
 
 class AuthPage extends ConsumerWidget {
   const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print("🔄 AuthPage Rebuild ဖြစ်သွားပါပြီ!");
-    // String.fromEnvironment ဖြင့် .env ထဲက တန်ဖိုးကို လှမ်းယူခြင်း
-    // (Local မှာ Run တဲ့အခါ မရှိရင် 'Default App' ဟု ပေါ်နေမည်)
-    const appName = String.fromEnvironment('APP_NAME', defaultValue: 'Default App');
     final authState = ref.watch(authControllerProvider);
     final authNotifier = ref.read(authControllerProvider.notifier);
     return Scaffold(
-      appBar: AppBar(title: const Text(appName)),
+      appBar: AppBar(title: const Text('Riverpod DI + Clean Auth + Equitable')),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Center(

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_di_test/features/auth/data/datasources/auth_remote_source.dart';
 
+import '../../features/auth/data/datasources/auth_remote_source.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/login_with_email_usecase.dart';
@@ -20,10 +20,10 @@ final authRepositoryProvider = Provider<IAuthRepository>((ref) {
 // Usecases
 final loginWithGoogleUseCaseProvider = Provider<LoginWithGoogleUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
-  return LoginWithGoogleUseCase(repository);
+  return LoginWithGoogleUseCase(repository: repository);
 });
 
 final loginWithEmailUseCaseProvider = Provider<LoginWithEmailUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
-  return LoginWithEmailUseCase(repository);
+  return LoginWithEmailUseCase(repository: repository);
 });
