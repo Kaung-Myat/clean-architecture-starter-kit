@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'features/auth/presentation/pages/auth_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
-}
+import 'app/app.dart';
+import 'core/storage/shared_pref_service.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+export 'app/app.dart' show MyApp;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Riverpod DI Test',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      home: const AuthPage(),
-    );
-  }
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Resolve runtime singletons, then inject them via ProviderScope overrides
+  // (composition root — see ABOUT-ARCHI §3/§4).
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }

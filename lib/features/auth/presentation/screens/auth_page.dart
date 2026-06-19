@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/auth_controller.dart';
+import '../providers/auth_controller.dart';
 
 class AuthPage extends ConsumerWidget {
   const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print("🔄 AuthPage Rebuild ဖြစ်သွားပါပြီ!");
     final authState = ref.watch(authControllerProvider);
     final authNotifier = ref.read(authControllerProvider.notifier);
     return Scaffold(

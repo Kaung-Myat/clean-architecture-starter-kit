@@ -16,7 +16,7 @@ void main() {
   setUp(() {
     mockRepository = MockAuthRepository();
     // Injecting the mock repository to the use case
-    useCase = LoginWithGoogleUseCase(mockRepository);
+    useCase = LoginWithGoogleUseCase(repository: mockRepository);
   });
 
   // Mock data for testing

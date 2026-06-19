@@ -2,10 +2,10 @@ import '../entities/user_entity.dart';
 import '../repositories/auth_repository.dart';
 
 class LoginWithEmailUseCase {
-  final IAuthRepository repository;
-  LoginWithEmailUseCase(this.repository);
+  const LoginWithEmailUseCase({required IAuthRepository repository}) : _repository = repository;
+  final IAuthRepository _repository;
 
-  Future<UserEntity> call(String email, String password) async {
-    return await repository.signInWithEmail(email, password);
+  Future<UserEntity> call(String email, String password) {
+    return _repository.signInWithEmail(email, password);
   }
 }

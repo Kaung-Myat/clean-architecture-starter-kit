@@ -2,10 +2,10 @@ import '../entities/user_entity.dart';
 import '../repositories/auth_repository.dart';
 
 class LoginWithGoogleUseCase {
-  final IAuthRepository repository;
-  LoginWithGoogleUseCase(this.repository);
+  const LoginWithGoogleUseCase({required IAuthRepository repository}) : _repository = repository;
+  final IAuthRepository _repository;
 
-  Future<UserEntity> call() async {
-    return await repository.signInWithGoogle();
+  Future<UserEntity> call() {
+    return _repository.signInWithGoogle();
   }
 }

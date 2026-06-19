@@ -1,19 +1,25 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_di_test/main.dart'; // သင့် main.dart ကို import လုပ်ပါ
+import 'package:flutter_test/flutter_test.dart';
+import 'package:riverpod_di_test/app/app.dart';
+import 'package:riverpod_di_test/core/storage/shared_pref_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  testWidgets('App should render AuthPage with Sign In buttons', (WidgetTester tester) async {
-    // 1. Riverpod သုံးထားသောကြောင့် Widget Test တွင်လည်း ProviderScope ဖြင့် အုပ်ပေးရမည်
-    await tester.pumpWidget(const ProviderScope(child: MyApp()));
+  testWidgets('App should render AuthPage with Sign In buttons', (tester) async {
+    // sharedPreferencesProvider is overridden at the composition root, so the
+    // widget test must supply a fake instance too.
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
 
-    // 2. UI ပေါ်လာရန် စောင့်ခြင်း
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+        child: const MyApp(),
+      ),
+    );
     await tester.pumpAndSettle();
 
-    // 3. 'Sign in with Google' ဆိုသော စာသား ပါ/မပါ စစ်ဆေးခြင်း
     expect(find.text('Sign in with Google'), findsOneWidget);
-
-    // 4. 'Traditional Sign in' ဆိုသော စာသား ပါ/မပါ စစ်ဆေးခြင်း
     expect(find.text('Traditional Sign in (Correct)'), findsOneWidget);
   });
 }
