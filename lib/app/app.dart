@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/env/env.dart';
 import 'config/theme/theme.dart';
 import 'router/app_router.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Clean Architecture Starter',
+      title: Env.appName,
       theme: lightThemeData,
       darkTheme: darkThemeData,
       themeMode: themeMode,

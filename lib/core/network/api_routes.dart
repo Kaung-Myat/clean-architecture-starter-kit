@@ -5,8 +5,9 @@ class ApiRoutes {
   const ApiRoutes._();
 
   // Auth
-  static const String login = '/login';
-  static const String logout = '/logout';
+  static const String login = '/auth/login';
+  static const String googleLogin = '/auth/google';
+  static const String logout = '/auth/logout';
   static const String refreshToken = '/auth/refresh';
 
   // Example resource

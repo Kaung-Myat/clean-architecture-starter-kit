@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/env/env.dart';
+import '../../../../core/network/exceptions/api_exception.dart';
+import '../../../../core/network/exceptions/network_exception.dart';
 import '../providers/auth_controller.dart';
 
 class AuthPage extends ConsumerWidget {
@@ -10,10 +13,25 @@ class AuthPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authControllerProvider);
     final authNotifier = ref.read(authControllerProvider.notifier);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Riverpod DI + Clean Auth + Equitable')),
+      appBar: AppBar(
+        title: Text(Env.appName),
+        actions: [
+          if (Env.demoMode)
+            const Padding(
+              padding: EdgeInsets.only(right: 12),
+              child: Center(
+                child: Chip(
+                  label: Text('DEMO'),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            ),
+        ],
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Center(
           child: authState.when(
             data: (user) {
@@ -21,14 +39,28 @@ class AuthPage extends ConsumerWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton.icon(onPressed: () => authNotifier.loginWithGoogle(), icon: const Icon(Icons.g_mobiledata, size: 30), label: const Text('Sign in with Google')),
+                    ElevatedButton.icon(
+                      onPressed: authNotifier.loginWithGoogle,
+                      icon: const Icon(Icons.g_mobiledata, size: 30),
+                      label: const Text('Sign in with Google'),
+                    ),
                     const SizedBox(height: 16),
-                    ElevatedButton.icon(onPressed: () => authNotifier.loginWithEmail("dev@test.com", "123456"), icon: const Icon(Icons.email), label: const Text('Traditional Sign in (Correct)')),
+                    ElevatedButton.icon(
+                      onPressed: () => authNotifier.loginWithEmail(
+                        'dev@test.com',
+                        '123456',
+                      ),
+                      icon: const Icon(Icons.email),
+                      label: const Text('Sign in (demo password)'),
+                    ),
                     const SizedBox(height: 16),
                     OutlinedButton.icon(
-                      onPressed: () => authNotifier.loginWithEmail("dev@test.com", "wrong_pass"),
-                      icon: const Icon(Icons.error, color: Colors.red),
-                      label: const Text('Test Wrong Password'),
+                      onPressed: () => authNotifier.loginWithEmail(
+                        'dev@test.com',
+                        'wrong_pass',
+                      ),
+                      icon: const Icon(Icons.error_outline, color: Colors.red),
+                      label: const Text('Test wrong password'),
                     ),
                   ],
                 );
@@ -37,32 +69,49 @@ class AuthPage extends ConsumerWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Welcome, ${user.name}!', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  Text('Email: ${user.email}'),
-                  const SizedBox(height: 30),
-
-                  // ၁။ နာမည် အတူတူပဲကို ထပ်ပြင်ကြည့်မည့် ခလုတ် (Equatable ကြောင့် Rebuild မဖြစ်ရပါ)
-                  ElevatedButton(onPressed: () => authNotifier.updateName(user.name), child: const Text('Update with SAME Name')),
-                  const SizedBox(height: 10),
-
-                  // ၂။ နာမည် အသစ်ပြောင်းမည့် ခလုတ် (Rebuild ဖြစ်ရပါမည်)
-                  ElevatedButton(
-                    onPressed: () => authNotifier.updateName("Kaung"),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                    child: const Text('Update with NEW Name'),
+                  Text(
+                    'Welcome, ${user.name}!',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const SizedBox(height: 30),
-
-                  ElevatedButton(onPressed: authNotifier.logout, child: const Text('Log out')),
+                  Text('Email: ${user.email}'),
+                  Text('Auth: ${user.authType}'),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () => authNotifier.updateName(user.name),
+                    child: const Text('Update with SAME name'),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () => authNotifier.updateName('Kaung'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: const Text('Update with NEW name'),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: authNotifier.logout,
+                    child: const Text('Log out'),
+                  ),
                 ],
               );
             },
-            error: (error, stack) => Column(
+            error: (error, _) => Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Error: $error', style: const TextStyle(color: Colors.red)),
-                const SizedBox(height: 10),
-                ElevatedButton(onPressed: authNotifier.logout, child: const Text('Try Again')),
+                Text(
+                  _errorMessage(error),
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  onPressed: authNotifier.logout,
+                  child: const Text('Try again'),
+                ),
               ],
             ),
             loading: () => const CircularProgressIndicator(),
@@ -70,5 +119,11 @@ class AuthPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  String _errorMessage(Object error) {
+    if (error is ApiException) return error.message;
+    if (error is NetworkException) return error.message;
+    return error.toString();
   }
 }

@@ -1,10 +1,9 @@
-/// Optional base failure type.
+/// Optional base failure type for teams that prefer `Either`/`Failure`.
 ///
-/// The default flow in this kit does **not** wrap results in `Either`/`Failure`
-/// (see ABOUT-ARCHI §2): datasources let typed exceptions
-/// (`ApiException`/`NetworkException`) propagate to the notifier, where Riverpod
-/// captures them as `AsyncError`. These types exist only as scaffolding for
-/// teams that prefer a functional error-handling style.
+/// **v2 default:** do **not** wrap results in `Either`/`Failure`. Datasources
+/// throw typed exceptions (`ApiException` / `NetworkException`); Riverpod
+/// notifiers capture them as `AsyncError`. Keep this file only if you adopt a
+/// functional error-handling style — otherwise leave unused.
 sealed class Failure {
   const Failure(this.message);
   final String message;
