@@ -1,0 +1,7 @@
+{
+  "FLAVOR": "uat",
+  "ENV": "uat",
+  "API_URL": "https://api-uat.example.com",
+  "APP_NAME": "Clean Frame UAT",
+  "DEMO_MODE": "false"
+}

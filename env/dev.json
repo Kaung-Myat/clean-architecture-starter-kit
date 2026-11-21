@@ -1,0 +1,7 @@
+{
+  "FLAVOR": "dev",
+  "ENV": "dev",
+  "API_URL": "https://api-dev.example.com",
+  "APP_NAME": "Clean Frame Dev",
+  "DEMO_MODE": "true"
+}

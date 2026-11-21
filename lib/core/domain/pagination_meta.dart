@@ -1,9 +1,11 @@
+import 'package:equatable/equatable.dart';
+
 /// Domain-level pagination envelope.
 ///
 /// Lives in `core/domain` (not `core/network`) so domain repositories/usecases
 /// can depend on it without importing JSON/network types.
 /// JSON parsing belongs in the data layer — see [PaginationMetaMapper].
-class PaginationMeta {
+class PaginationMeta extends Equatable {
   const PaginationMeta({
     required this.currentPage,
     required this.totalPages,
@@ -21,4 +23,7 @@ class PaginationMeta {
     totalPages: 1,
     totalRows: 0,
   );
+
+  @override
+  List<Object?> get props => [currentPage, totalPages, totalRows];
 }

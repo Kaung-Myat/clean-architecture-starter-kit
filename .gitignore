@@ -5,7 +5,6 @@
 *.swp
 .DS_Store
 .idea/
-.vscode/
 *.iml
 
 # Flutter/Dart/Pub related
@@ -63,8 +62,9 @@ coverage/
 # IntelliJ
 out/
 
-# VS Code settings (optional – remove if you want to share settings)
-.vscode/
+# VS Code — keep shared launch configs; ignore personal settings
+.vscode/*
+!.vscode/launch.json
 
 # Firebase / secrets (IMPORTANT)
 google-services.json

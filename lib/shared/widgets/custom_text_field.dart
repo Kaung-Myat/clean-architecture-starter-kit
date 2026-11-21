@@ -13,7 +13,9 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.onChanged,
+    this.onFieldSubmitted,
     this.textInputAction,
+    this.autofillHints,
   });
 
   final TextEditingController? controller;
@@ -25,7 +27,9 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onFieldSubmitted;
   final TextInputAction? textInputAction;
+  final Iterable<String>? autofillHints;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,9 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator,
       onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
       textInputAction: textInputAction,
+      autofillHints: autofillHints,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,

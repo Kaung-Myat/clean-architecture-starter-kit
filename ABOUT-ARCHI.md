@@ -1,14 +1,19 @@
-# ABOUT-ARCHI — Clean Architecture + Riverpod (v2)
+# ABOUT-ARCHI — Clean Architecture + Riverpod (v2.3)
 
 Blueprint for scaffolding features and new projects from this kit.
 
-> Stack shipped in **v2.0.0**: Flutter · Riverpod (`flutter_riverpod` +
-> `riverpod_annotation`) · Dio · GoRouter · Freezed + json_serializable
-> (data layer only) · Equatable (domain) · SharedPreferences /
-> flutter_secure_storage · Material 3 · `--dart-define` Env.
+> Stack shipped in **v2.3.0**: Flutter · Riverpod · Dio · GoRouter ·
+> Freezed + json_serializable (data only) · Equatable (domain) ·
+> SharedPreferences / flutter_secure_storage · Slang (EN/MY) ·
+> connectivity_plus · cupertino_back_gesture · FCM **boilerplate**
+> (no Firebase deps) · Material 3 · flavors via
+> `--dart-define-from-file=env/{dev,uat,prod}.json` · SessionController ·
+> token refresh on 401 · `whenApp` offline/error UI · bottom-nav shell ·
+> posts sample (pagination + deep links + form field errors) · CI ·
+> VS Code launch configs.
 
-Optional later (not in v2 scaffold): Slang i18n, Hive, Firebase/FCM,
-connectivity package.
+Optional later: real Firebase/FCM (see `docs/ENABLE_FCM.md`), Hive,
+permission/location services.
 
 ---
 
@@ -22,15 +27,18 @@ lib/
 ├── app/                         # App shell + global config (no business logic)
 │   ├── app.dart
 │   ├── config/theme/
+│   ├── config/localization/     # Slang source JSON + generated + LocaleController
 │   └── router/
 │
 ├── core/                        # Cross-cutting — NEVER imports features/
+│   ├── auth/                    # SessionController (token presence)
 │   ├── domain/                  # Shared domain types (PaginationMeta, …)
-│   ├── env/
+│   ├── env/                     # AppFlavor, Env, FlavorController
+│   ├── services/                # connectivity, FCM boilerplate, navigation
 │   ├── errors/                  # Optional Failure (unused by default)
 │   ├── network/                 # Dio, ApiService, routes, interceptors, mappers
 │   ├── storage/
-│   ├── utils/
+│   ├── utils/                   # whenApp, reconnect refresh
 │   └── widgets/
 │
 ├── features/<feature>/
@@ -223,23 +231,61 @@ class AuthController extends _$AuthController {
 }
 ```
 
-Screens: `ConsumerWidget` + `async.when`. Branch errors on `NetworkException` /
-`ApiException`.
+Screens: `ConsumerWidget` + `async.whenApp` (see §7).
 
 ---
 
-## 7. Env (`core/env/env.dart`)
+## 7. Flavors, session, offline / error UI
 
-| Define | Default | Meaning |
-|---|---|---|
-| `API_URL` | jsonplaceholder | Base URL |
-| `APP_NAME` | Clean Architecture Starter | MaterialApp title |
-| `ENV` | `dev` | Environment label |
-| `DEMO_MODE` | `true` | Demo auth datasource |
+### Flavors / env files
 
 ```bash
-flutter run --dart-define=DEMO_MODE=false --dart-define=API_URL=https://api.example.com
+flutter run --dart-define-from-file=env/dev.json
+flutter run --dart-define-from-file=env/uat.json
+flutter run --dart-define-from-file=env/prod.json
 ```
+
+| Define | Meaning |
+|---|---|
+| `FLAVOR` | `dev` / `uat` / `prod` → `AppFlavor` |
+| `API_URL` | Dio `baseUrl` |
+| `APP_NAME` | MaterialApp title |
+| `DEMO_MODE` | Demo auth + posts datasources |
+
+`FlavorController` can override flavor at runtime (disabled when compile-time
+flavor is prod). Dio rebuilds when flavor changes.
+
+### Session
+
+`SessionController` reads `SecureStorage` for an access token. GoRouter
+`redirect` sends unauthenticated users to `/auth` and authenticated users
+away from auth to `/home`.
+
+Auth interceptor on **401**:
+1. call `TokenRefreshService` (bare Dio → `ApiRoutes.refreshToken`)
+2. on success → retry the request once (queued concurrent 401s wait)
+3. on failure → `signOut()` + `goAuth()`
+
+Use `kSkip401Redirect` on login so wrong credentials do not trigger refresh.
+
+### Async UI / forms / lists
+
+```dart
+async.whenApp(
+  onRetry: () => ref.read(myProvider.notifier).refresh(),
+  data: (value) => …,
+);
+```
+
+- `NetworkException` → `OfflineScreen`
+- other / 5xx → `ErrorScreen`
+- `ref.listenReconnectRefresh(refresh)` reloads when connectivity returns
+- Forms: local `Validators` + `FormFieldErrors.fromApi(ApiException)`
+- Lists: `InfiniteScrollMixin` + `PaginationMeta` (see `features/posts`)
+
+Deep links: `/posts/:id?highlight=true` + typed `PostDetailExtra`.
+
+Shell: `StatefulShellRoute` + `MainWrapperScreen` (Home / Posts / Settings).
 
 ---
 
@@ -277,3 +323,34 @@ Generated: `*.g.dart`, `*.freezed.dart` (models/providers only — **not** entit
 - `PaginationMeta` moved to `core/domain`; mapper stays in network.
 - Docs match the real `app/` + `features/` layout.
 - Broader SDK constraint; softer Dio timeouts; `DEMO_MODE` flag.
+
+---
+
+## 11. What changed in v2.1.0
+
+- Slang i18n (EN/MY) + `LocaleController` + `TranslationProvider`.
+- `ConnectivityService` with online/offline toasts (watch from `MyApp`).
+- FCM **boilerplate only**: `NoOpFcmService` + no-op push init
+  (no `firebase_*` packages — enable via `docs/ENABLE_FCM.md`).
+- iOS edge back swipe via `cupertino_back_gesture` in `MyApp.builder`.
+
+---
+
+## 12. What changed in v2.2.0
+
+- Flavors via `env/{dev,uat,prod}.json` + `AppFlavor` / `FlavorController`.
+- `SessionController` + GoRouter auth redirect + 401 session expiry.
+- Bottom-nav shell (`MainWrapperScreen`) with Home + Settings sample screens
+  (Posts tab added in v2.3.0).
+- `whenApp` / `OfflineScreen` / `ErrorScreen` + reconnect refresh helper.
+- `NavigationService` for imperative auth/home navigation.
+
+---
+
+## 13. What changed in v2.3.0
+
+- Token refresh on 401 (`TokenRefreshService` + queued retry).
+- `features/posts` sample: paginated list, detail deep link, create form.
+- `FormFieldErrors` convention for server validation maps.
+- GitHub Actions CI (`analyze` + `test`).
+- `.vscode/launch.json` for `env/{dev,uat,prod}.json`.

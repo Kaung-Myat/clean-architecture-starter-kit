@@ -1,0 +1,60 @@
+{
+  "app": {
+    "name": "Clean Architecture Starter"
+  },
+  "common": {
+    "retry": "ပြန်ကြိုးစားရန်",
+    "cancel": "ပယ်ဖျက်ရန်",
+    "tryAgain": "ထပ်မံကြိုးစားရန်",
+    "somethingWentWrong": "တစ်ခုခု မှားယွင်းနေပါသည်",
+    "offline": "အင်တာနက် ချိတ်ဆက်မှု မရှိပါ။",
+    "onlineRestored": "အင်တာနက် ပြန်လည် ချိတ်ဆက်ပြီးပါပြီ။",
+    "noInternetTitle": "အင်တာနက် မရှိပါ",
+    "checkConnection": "ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်မံကြိုးစားပါ။"
+  },
+  "auth": {
+    "demoChip": "DEMO",
+    "welcomeBack": "ပြန်လည်ကြိုဆိုပါတယ်",
+    "signInSubtitle": "အကောင့်သို့ ဝင်ရောက်ပါ",
+    "username": "အသုံးပြုသူအမည်",
+    "usernameHint": "အသုံးပြုသူအမည် သို့မဟုတ် အီးမေးလ် ထည့်ပါ",
+    "usernameRequired": "အသုံးပြုသူအမည် ထည့်ပါ",
+    "password": "စကားဝှက်",
+    "passwordHint": "စကားဝှက် ထည့်ပါ",
+    "passwordRequired": "စကားဝှက် ထည့်ပါ",
+    "login": "ဝင်ရန်",
+    "signInWithGoogle": "Google ဖြင့် ဝင်ရန်",
+    "demoHint": "Demo: အီးမေးလ် + စကားဝှက် 123456",
+    "welcome": "မင်္ဂလာပါ၊ $name!",
+    "emailLabel": "အီးမေးလ်: $email",
+    "authTypeLabel": "အမျိုးအစား: $type",
+    "updateSameName": "နာမည်အတူ ထပ်ပြင်ရန်",
+    "updateNewName": "နာမည်အသစ် ပြောင်းရန်",
+    "logOut": "ထွက်ရန်",
+    "tryAgain": "ထပ်မံကြိုးစားရန်"
+  },
+  "home": {
+    "title": "ပင်မ"
+  },
+  "posts": {
+    "title": "ပို့စ်များ",
+    "empty": "ပို့စ် မရှိသေးပါ။",
+    "detailTitle": "ပို့စ်",
+    "highlightBanner": "Deep link (?highlight=true) ဖြင့် ဖွင့်ထားသည်",
+    "idLabel": "ID: $id",
+    "createTitle": "ပို့စ် အသစ်",
+    "titleField": "ခေါင်းစဉ်",
+    "titleHint": "အနည်းဆုံး ၃ လုံး (forbidden စမ်းကြည့်ပါ)",
+    "bodyField": "အကြောင်းအရာ",
+    "bodyHint": "အနည်းဆုံး ၁၀ လုံး",
+    "validationHint": "Server field errors ကို FormFieldErrors.fromApi ဖြင့် map သည်။",
+    "submit": "ဖန်တီးရန်",
+    "created": "ပို့စ် ဖန်တီးပြီးပါပြီ"
+  },
+  "settings": {
+    "title": "ဆက်တင်",
+    "flavor": "Flavor",
+    "darkMode": "အမှောင်မုဒ်",
+    "language": "ဘာသာစကား"
+  }
+}

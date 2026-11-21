@@ -1,0 +1,7 @@
+{
+  "FLAVOR": "prod",
+  "ENV": "prod",
+  "API_URL": "https://api.example.com",
+  "APP_NAME": "Clean Architecture Starter",
+  "DEMO_MODE": "false"
+}

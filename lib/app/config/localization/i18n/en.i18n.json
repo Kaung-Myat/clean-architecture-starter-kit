@@ -1,0 +1,60 @@
+{
+  "app": {
+    "name": "Clean Architecture Starter"
+  },
+  "common": {
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "tryAgain": "Try again",
+    "somethingWentWrong": "Something went wrong",
+    "offline": "You are currently offline.",
+    "onlineRestored": "Your internet connection was restored.",
+    "noInternetTitle": "No Internet Connection",
+    "checkConnection": "Check your connection and try again."
+  },
+  "auth": {
+    "demoChip": "DEMO",
+    "welcomeBack": "Welcome Back",
+    "signInSubtitle": "Sign in to your account",
+    "username": "Username",
+    "usernameHint": "Enter your username or email",
+    "usernameRequired": "Please enter your username",
+    "password": "Password",
+    "passwordHint": "Enter your password",
+    "passwordRequired": "Please enter your password",
+    "login": "Sign in",
+    "signInWithGoogle": "Sign in with Google",
+    "demoHint": "Demo: any email + password 123456",
+    "welcome": "Welcome, $name!",
+    "emailLabel": "Email: $email",
+    "authTypeLabel": "Auth: $type",
+    "updateSameName": "Update with SAME name",
+    "updateNewName": "Update with NEW name",
+    "logOut": "Log out",
+    "tryAgain": "Try again"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "posts": {
+    "title": "Posts",
+    "empty": "No posts yet.",
+    "detailTitle": "Post",
+    "highlightBanner": "Opened via deep link (?highlight=true)",
+    "idLabel": "ID: $id",
+    "createTitle": "Create post",
+    "titleField": "Title",
+    "titleHint": "At least 3 characters (try “forbidden”)",
+    "bodyField": "Body",
+    "bodyHint": "At least 10 characters",
+    "validationHint": "Server field errors map via FormFieldErrors.fromApi.",
+    "submit": "Create",
+    "created": "Post created"
+  },
+  "settings": {
+    "title": "Settings",
+    "flavor": "Flavor",
+    "darkMode": "Dark mode",
+    "language": "Language"
+  }
+}
